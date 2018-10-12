@@ -1,0 +1,27 @@
+<!-- JOIN/LEAVE MEETING MODAL -->
+<div class="container">
+	<!-- Modal -->
+	<div class="modal fade" id="joinMeetingModal" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Group Meeting:</h4>
+				</div>
+				
+				<div class="modal-body">
+					<h2>{{vm.meetingToModify.title}}</h2>
+					<h4>{{vm.meetingToModify.comment}}</h4>	 
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success" ng-click="vm.userNotAttendMeeting(vm.meetingToModify)" data-dismiss="modal" ng-show="vm.isUserAttendMeeting(vm.meetingToModify)">I'm Not Attending</button>
+					<button type="button" class="btn btn-success" ng-click="vm.userAttendMeeting(vm.meetingToModify)" data-dismiss="modal" ng-hide="vm.isUserAttendMeeting(vm.meetingToModify)">I'm Attending</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>

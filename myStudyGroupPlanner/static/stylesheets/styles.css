@@ -1,0 +1,256 @@
+.navbar-nav li a:hover{
+  color: #1abc9c !important;  /*Sets the text hover color on navbar*/
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #66CCFF;  /*change color of links in drop down here*/
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: silver; /*Change rollover cell color here*/
+}
+
+.navbar-brand{
+  height: 40;
+  width: 250px;
+  background-image:url("Logo.png");
+  background-repeat: no-repeat;
+  background-size: 230px, 10px;
+  background-position: 10px;
+}
+
+.nav-pills > li > a:hover{
+    background-color: #50AA7F !important;
+}
+
+.nav-pills a{
+    color: #ffffff !important;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
+    background-color: #50aa7f !important;
+}
+
+.nav-filter{
+    background-color: #1b7e43 !important;
+}
+
+.indexBody{
+  background-color: #dbcb48;
+  /*background-image: url("weather.png");*/
+}
+.center-pills { display: inline-block; }
+
+select {
+  margin: 5px;
+  border: 1px solid #111;
+  background: transparent;
+  width: 150px;
+  padding: 5px 35px 5px 5px;
+  margin: left;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  height: 35px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #ffffff
+}
+/*target Internet Explorer 9 and Internet Explorer 10:*/
+@media screen and (min-width:0\0) {
+  select {
+    background:none;
+    padding: 5px;
+  }
+}
+.calendar, .upcoming_events{
+  height:250px;
+  width:400px;
+  border:3px solid black;
+  position: relative;
+  margin: 8px 10px;
+}
+
+.calendar{
+  padding: 5px;
+  background: #f5e773;
+  border-style: groove;
+  border-width: 10px;
+  border-color: #b5a526;
+}
+
+.upcoming_events{
+  background: #f5e773;
+  border-style: groove;
+  border-width: 10px;
+  border-color: #b54626;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.homeCalendar {
+  border: 3px solid black;
+  padding: 10px;
+}
+
+.creatorCalendar, .creatorUpcoming_events{
+  height:250px;
+  width:400px;
+  border:3px solid black;
+  position: relative;
+  margin: 8px 10px;
+}
+
+.creatorEvents, .memberEvents{
+  padding: 15px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 8px 10px;
+}
+
+table{
+  border-collapse: collapse;
+  float: left;
+}
+
+th{
+  padding: 5px;
+  background-color: #B54626;
+  color: white;
+  border: 1px solid black;
+}
+
+td{
+  padding: 5px;
+  background-color: #f5e773;
+  border: 1px solid black;
+}
+
+.table-bordered td, .table-bordered th{
+    border-color: black !important;
+    text-align: center !important;
+}
+
+.messageGroup, .leaveGroup, .groupName{
+  float: left;
+}
+
+.container{
+  margin-top: -25px;
+}
+
+.messageGroup{
+  margin: 20px 20px;
+}
+
+.leaveGroup{
+  margin-left: 18px;
+}
+
+.createTab{
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
+
+.homeTabs{
+  height: 550px;
+  padding: 10px;
+  background: #f5e773;
+  border-style: ridge;
+  border-width: 10px;
+  border-color: #50aa7f;
+}
+
+.homeCalendar{
+  height:250px;
+  background: #f5e773;
+  border-style: groove;
+  border-width: 10px;
+  border-color: #b5a526;
+}
+
+.meetingDetail{
+  height: 150px;
+  width: 300px;
+  background: #f5e773;
+  border-style: groove;
+  border-width: 10px;
+  border-color: #b54626;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.information{
+  float:right;
+  width:300px;
+  margin:10px;
+}
+
+.tabs{
+  height: 600px;
+  float: left;
+}
+
+.currentGrps{
+  height: 150px;
+  width: 300px;
+  padding: 5px;
+  background: #f5e773;
+  border-style: groove;
+  border-width: 10px;
+  border-color: #1b7e4e;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.button{
+  align: center;
+}
+
+.create,.location,.accessType,.permLevel{
+  margin: 10px;
+}
+
+.chat{
+  height:330px;
+  width:600px;
+  background: #f5e773;
+  border-style: ridge;
+  border-width: 10px;
+  border-color: #50aa7f;
+  overflow-y: scroll;
+  padding-left: 3px;
+}
+
+.chatBoard{
+  height: 450px;
+  width:600px;
+}
+
+.groupSearchDetail{
+  padding: 20px;
+  height: 510px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+#comments{
+  position: absolute;
+  top: 450px;
+  width: 500px;
+  height: 50px;
+}
+
+#subMsg{
+  position:absolute;
+  top: 450px;
+  left: 525px;
+}

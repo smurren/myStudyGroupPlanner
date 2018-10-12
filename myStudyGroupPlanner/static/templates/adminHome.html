@@ -1,0 +1,192 @@
+<div style="float:left; width:550px; margin:60px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+	<div>
+	  <ul class="nav nav-pills nav-justified nav-filter">
+	    <li ng-class="{ active:vm.isSelected(1)}">
+	      <a href="/adminHome" ng-click="vm.selectTab(1)">View Report</a>
+	    </li>
+	    <li ng-class="{ active:vm.isSelected(2)} ">
+	      <a href="/adminHome" ng-click="vm.selectTab(2)">Add Study Location</a>
+	    </li>
+	    <li ng-class="{ active:vm.isSelected(3)} ">
+	      <a href="/adminHome" ng-click="vm.selectTab(3)">Add Class</a>
+	    </li>
+	    <li ng-class="{ active:vm.isSelected(4)} ">
+	      <a href="/adminHome" ng-click="vm.selectTab(4)">Users</a>
+	    </li>
+	    <li ng-class="{ active:vm.isSelected(5)} ">
+	      <a href="/adminHome" ng-click="vm.selectTab(5)">Delete</a>
+	    </li>
+	  </ul>
+	  <br>
+	</div>
+      </div>
+
+      <div ng-show="vm.isSelected(1)">
+	<table class="table table-hover table-bordered table-condensed">
+	  <tr>
+	    <th>Report Code</th>
+	    <th>Reporter</th>
+	    <th>Reportee</th>
+	    <th>Date Submitted</th>
+	    <th>Date Submitted</th>
+	  </tr>
+	  <tr ng-repeat="report in vm.reports" align="center">
+	    <td>{{report.id}}</td>
+	    <td>{{report.reporter}}</td>
+	    <td>{{report.reportee}}</td>
+	    <td>{{report.date_submitted}}</td>
+	    <td><button class="btn btn-success btn-xs" ng-click="vm.openReportDetail(report.id, report.reporter, report.reportee,report.comments)">VIEW</button></td>
+
+	  </tr>
+	</table>
+      </div>
+
+      <!-- Modal -->
+      <div id="reportViewModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      <h4 class="modal-title"><b>Report</b></h4>
+	    </div>
+	    <div class="modal-body">
+	      <p>Report Code: {{vm.currentID}}</p>
+	      <p>Reporter: {{vm.currentReporter}}</p>
+	      <p>Reportee: {{vm.currentReportee}}</p>
+	      <p>Comment:{{vm.currentComment}}</p>
+
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    </div>
+          </div>
+	</div>
+      </div>
+
+      <div ng-show="vm.isSelected(2)">
+	<div class="row">
+	  <div class="col-md-4">
+	    <div>
+	      <label>Building: </label>
+	      <select ng-model="vm.selectedBuilding" ng-change="vm.updateBuilding()" id="buildingSelect">
+		<option value="" disabled selected hidden>Buildings</option>
+		<option ng-repeat="building in vm.buildings">{{building["name"]}}</option>
+		<option value="addBuilding">{{vm.addNewBuilding | truncate}}</option>
+	      </select>
+	      <input id= "newBuilding" type="textbox" ng-model="vm.newBuilding" style="height:26px; margin-left:5px; padding-left:3px; visibility: hidden;"/>
+	      <button id = "makeBuilding"ng-click="vm.makeBuilding()" style="visibility: hidden;">Add Building</button>
+	    </div>
+
+	    <!--       <div> {{vm.buildingStatus}}</div>
+		       <div> {{vm.roomStatus}}</div> -->
+	  </div>
+	  <div class="col-md-4">
+	    <div>
+	      <label id= "roomLabel" style="visibility: hidden;">Room Number: </label>
+	      <select ng-model="vm.selectedRoom" ng-change="vm.updateRoom()" id="roomSelect" style="visibility: hidden;">
+		<option value="" disabled selected hidden>Rooms</option>
+		<option ng-repeat="room in vm.filteredRooms">{{room.room_num}}</option>
+		<option value="addRoom">{{vm.addNewRoom | truncate}}</option>
+	      </select>
+	      <input id= "newRoom" type="textbox" ng-model="vm.newRoom" style="height:26px; margin-left:5px; padding-left:3px; visibility: hidden;"/>
+	      
+	      <button id = "makeRoom" ng-click="vm.makeRoom()" style="visibility: hidden;">Add Room</button>
+	    </div>
+	  </div>
+	</div>
+      </div>
+      
+      <!-- classes -->
+      <div ng-show="vm.isSelected(3)">
+	<div class="row">
+	  <div class="col-md-4">
+	    <div>
+	      <label>Subject: </label>
+	      <select ng-model="vm.selectedSubject" ng-change="vm.updateSubject()" id="subjectSelect">
+		<option value="" disabled selected hidden>Subjects</option>
+		<option ng-repeat="subject in vm.subjects">{{subject["subject"]}}</option>
+		<option value="addSubject">{{vm.addNewSubject | truncate}}</option>
+	      </select>
+	      <input id= "newSubject" type="textbox" ng-model="vm.newSubject" style="height:26px; margin-left:5px; padding-left:3px; visibility: hidden;"/>
+	      <button id = "makeSubject"ng-click="vm.makeSubject()" style="visibility: hidden;">Add Subject</button>
+	    </div>
+
+	<!--       <div> {{vm.buildingStatus}}</div>
+		   <div> {{vm.roomStatus}}</div> -->
+	  </div>
+	  <div class="col-md-4">
+	    <div>
+	      <label id= "classLabel" style="visibility: hidden;">Class: </label>
+	      <select ng-model="vm.selectedClass" ng-change="vm.updateClass()" id="classSelect" style="visibility: hidden;">
+		<option value="" disabled selected hidden>Classes</option>
+		<option ng-repeat="Class in vm.filteredClasses">{{Class.subjectsClass}}</option>
+		<option value="addClass">{{vm.addNewClass | truncate}}</option>
+	      </select>
+	      <input id= "newClass" type="textbox" ng-model="vm.newClass" style="height:26px; margin-left:5px; padding-left:3px; visibility: hidden;"/>
+	      
+	      <button id = "makeClass" ng-click="vm.makeClass()" style="visibility: hidden;">Add Class</button>
+	    </div>
+	  </div>
+
+
+	  <div class="col-md-4">
+	    <div>
+	      <label id= "sectionLabel" style="visibility: hidden;">Section: </label>
+	      <select ng-model="vm.selectedSection" ng-change="vm.updateSection()" id="sectionSelect" style="visibility: hidden;">
+		<option value="" disabled selected hidden>Section</option>
+		<option ng-repeat="Section in vm.filteredSections">{{Section.section}}</option>
+		<option value="addSection">{{vm.addNewSection | truncate}}</option>
+	      </select>
+	      <input id= "newSection" type="textbox" ng-model="vm.newSection" style="height:26px; margin-left:5px; padding-left:3px; visibility: hidden;"/>
+	      
+	      <button id = "makeSection" ng-click="vm.makeSection()" style="visibility: hidden;">Add Section</button>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <div ng-show="vm.isSelected(4)">
+	<table class="table table-hover table-bordered">
+	  <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Email</th>
+	  </tr>
+	  <tr ng-repeat="user in vm.users" align="center">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+	  </tr>
+	</table>
+      </div>
+
+      <div ng-show="vm.isSelected(5)">
+	<button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#deleteAllModal">Delete Database</button>
+
+	<!-- Modal -->
+	<div id="deleteAllModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+
+	    <!-- Modal content -->
+	    <div class="modal-content">
+	      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title"><b>Warning</b></h4>
+	      </div>
+	      <div class="modal-body">
+		<h4>Are you sure you want to delete the contents of the database?</h4>
+		<br>
+		<h4><b>Clicking "Yes" will delete all of the reports, meetings, and chat messages from the database. The buildings, classes, and class sections will not be affected.</b></h4>
+		<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.resetDatabase()">Yes</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>

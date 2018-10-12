@@ -1,0 +1,21 @@
+from rest_framework import serializers
+from group.models import Group
+
+#from msgpUser.serializers import MSGPUserSerializer
+
+
+class GroupSerializer(serializers.ModelSerializer):
+
+	#users = MSGPUserSerializer(many=True, read_only=False)
+
+	class Meta:
+		model = Group
+		field = ('groupName',
+				 'subject', 
+				 'className', 
+				 'section', 
+				 'groupOwner', 
+				 'memberCount', 
+				 'totalMembersAllowed')
+		
+		

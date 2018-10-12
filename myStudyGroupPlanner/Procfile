@@ -1,0 +1,1 @@
+web: gunicorn myStudyGroupPlanner_django_angular_boilerplate.wsgi --log-file -

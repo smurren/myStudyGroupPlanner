@@ -1,0 +1,221 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="member" ng-show="vm.userAMember">
+	<div class="row">
+	  <div class="col-md-8">
+	    <h1>{{vm.groupInfo.groupName}}</h1>
+	  </div>
+	  <div class="col-md-4" style="padding:10px">
+	    <a href="/" class="btn btn-success">Return Home</a>
+	  </div>
+	</div>
+	<div class="chatBoard">
+	  <div class="chat">
+	    <div ng-repeat="msg in vm.messages | filter:{groupId: vm.groupId}">
+	      <p><i>({{msg.dateTime | date:'M/d-h:mma'}}) </i><b>{{msg.userName}}</b>: {{msg.message}}&nbsp&nbsp&nbsp&nbsp</p>
+	    </div>
+	    <form role="form">
+	      <textarea name="comments" id="comments" ng-model="vm.chatFields.message">
+		Type a message....
+	      </textarea>
+	      <button id="subMsg" type="submit" class="btn btn-success" ng-click="vm.sendMessage()">Send</button>
+	    </form>
+	  </div>
+	</div>
+
+	<!-- JOIN/LEAVE MEETING MODAL -->
+	<div ng-include="vm.meetingModalHTML"></div>
+	<!--   -->
+
+	<div class="container" ng-show="vm.isCreator">
+	  <!-- Trigger the modal with a button -->
+	  <br><br>
+	  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#meetingModal">Create Meeting</button>
+	  <!-- Modal -->
+	  <div class="modal fade" id="meetingModal" role="dialog">
+	    <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Create Meeting  {{vm.meetingDate}}</h4>
+		</div>
+		<div class="modal-body">
+		  <form name="meetingForm" role="form">
+		    Title:
+		    <input type="text" ng-model="vm.meetingTitle">
+
+		    <br>
+		    <div class="timeSelection">
+		      <div>
+			Date:
+			<input type="date" name="startdate" ng-model="vm.startTime" class="glyphicon glyphicon-calendar">
+			<span ng-show="meetingFrom.date.$required">
+			  The date is required
+			</span>
+			<input type="time" ng-model="vm.startTime">
+		      </div>
+		      <span>to </span>
+		      <div>
+			Date:
+			<input type="date" name="enddate" ng-model="vm.endTime" class="glyphicon glyphicon-calendar">
+			<span ng-show="meetingFrom.date.$required">
+			  The date is required
+			</span>
+			<input type="time" ng-model="vm.endTime">
+		      </div>
+		    </div>
+		    Location:
+		    <div class="locationSelection">
+		      <select ng-model="vm.selectedBuilding" ng-change="vm.updateBuilding()" id="buildingSelect">
+			<option value="" disabled selected hidden>Select Building</option>
+			<option ng-repeat="building in vm.buildings">{{building["name"]}}</option>
+		      </select>
+		    </div>
+		    <div class="locationSelection">
+		      <select ng-model="vm.selectedRoom" ng-change="vm.updateRoom()" id="roomSelect" style="visibility: hidden;">
+			<option value="" disabled selected hidden>Select Room</option>
+			<option ng-repeat="room in vm.filteredRooms">{{room.room_num | truncate}}</option>
+		      </select>
+		    </div>
+		    Comment:
+		    <br />
+		    <input type="text" id="meetingNotes" ng-model="vm.meetingComments">
+		  </form>
+
+		</div>
+
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" ng-click="vm.setDefualtMeetingInfo()" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-success" ng-click="vm.restrictMeetingOverlap()">Create Meeting</button>
+		  <div style="color:red"><h5><strong>{{vm.meetingCreationStatus}}</strong></h5></div>
+		</div>
+              </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="leaveGroup" ng-show="vm.userAMember">
+	  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#leaveModal" ng-click="vm.setUserLeavingGroup()">Leave Group</button>
+	  <!-- Modal -->
+	  <div class="modal fade" id="leaveModal" role="dialog">
+	    <div class="modal-dialog">
+	      <!-- Modal content-->
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Confirm to leave</h4>
+		</div>
+		<div class="modal-body">
+		  <p>Are you sure you want to leave the group?</p>
+		  <p ng-show="vm.isCreator"><strong>You are the group creator.  This will delete the group!</strong></p>
+		  <p><strong>{{vm.leaveGroupStatus}}</strong></p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-success" ng-click="vm.leaveGroup()">Yes</button>
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="col-md-12">
+	    <div class="members" ng-show="vm.userAMember">
+	      <h3 >Members: </h3>
+	      <table class="table table-hover table-bordered table-condensed" style="width:auto !important">
+		<tr>
+		  <th>Name</th>
+		  <th>Report User</th>
+		  <th ng-show="vm.isCreator">Remove User</th>
+		</tr>
+		<tr ng-repeat="member in vm.groupUsers">
+		  <td>{{member.msgpUsername}}</td>
+		  <td>
+		    <button type="button" class="btn btn-warning btn-xs" ng-click="vm.getUsername(member.msgpUsername)" data-toggle="modal" data-target="#reportModal" ng-hide="{{member.msgpUserId==vm.thisUser.id}}">Report</button>
+		    <div id="reportModal" class="modal fade" role="dialog">
+		      <div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal">&times;</button>
+			    <h4 class="modal-title">Report</h4>
+			  </div>
+			  <div class="modal-body">
+			    <form role="form" name=report>
+			      <label for="reporter">Reporter:</label>
+			      <input type="text" class="form-control" ng-model="vm.reportFields.reporterName" placeholder="{{vm.thisUser.username}}" disabled>
+
+			      <label for="reportee">Reportee:</label>
+			      <input type="text" class="form-control"  placeholder="{{vm.curre_username}}" disabled>
+			      <label for="comment">Comment:</label>
+			      <textarea class="form-control" rows="5" name="comment" ng-model="vm.reportFields.reportComments" required></textarea>
+			      <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancelReport()">Cancel</button>
+			      <button type="submit" class="btn btn-success" ng-click="vm.reportUser(vm.curre_username)" data-dismiss="modal" ng-show=report.comment.$valid>Report</button>
+			    </form>
+			  </div>
+			  <div class="modal-footer"></div>
+			</div>
+		      </div>
+		    </div>
+		  </td>
+
+		  <td ng-show="vm.isCreator">
+		    <div class="removeContainer">
+		      <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#removeModal" ng-click="vm.setUserLeavingGroup(member)" ng-hide="vm.isUserCreator(member.msgpUserId)">Remove</button>
+		      <!-- Modal -->
+		      <div class="modal fade" id="removeModal" role="dialog">
+			<div class="modal-dialog">
+			  <!-- Modal content-->
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal">&times;</button>
+			      <h4 class="modal-title">Confirm to remove this member from the group</h4>
+			    </div>
+			    <div class="modal-body">
+			      <p>Are you sure you want to remove this member the group?</p>
+			      <p><strong>{{vm.leaveGroupStatus}}</strong></p>
+			    </div>
+			    <div class="modal-footer">
+			      <button type="button" class="btn btn-success" ng-click="vm.leaveGroup()" data-dismiss="modal">Yes</button>
+			      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			    </div>
+			  </div>
+			</div>
+		      </div>
+		    </div>
+		  </td>
+
+		</tr>
+	      </table>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="memberEvents" ng-show="vm.userAMember">
+
+	<div class="calendar">
+	  <div ng-include="vm.calendarHTML"></div>
+	</div>
+
+	<div class="upcoming_events" ng-show="vm.userAMember">
+	  <div class="meetings">
+	    <ul ng-repeat="meetingInfo in vm.filteredMeetings | orderBy:'start_time'" style="list-style: none; padding:0px;">
+	      <li style="font-size:1.5em"><a href="" data-toggle="modal" data-target="#joinMeetingModal" ng-click="vm.meetingToModify=meetingInfo"><strong>{{meetingInfo["title"]}}</strong></a></li>
+	      <li>{{meetingInfo["start_time"] | date:'hh:mma'}} - {{meetingInfo["end_time"] | date:'hh:mma'}}</li>
+	      <li>{{meetingInfo["building"]}}, room# {{meetingInfo["room_num"]}}</li>
+	      <li>Attendence: {{meetingInfo["users_attending"]}}</li>
+	      <li>{{meetingInfo["comment"]}}</li>
+	    </ul>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>

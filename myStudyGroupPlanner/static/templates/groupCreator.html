@@ -1,0 +1,188 @@
+<head>
+  <link rel="stylesheet" href="../styleSheets/styles.css">
+</head>
+
+<div class="entirePage">
+  <div class="creator">
+    <div class=groupName>
+      <h3>GroupName01</h3>
+    </div>
+    <div class="container">
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#meetingModal">Create Meeting</button>
+      <!-- Modal -->
+      <div class="modal fade" id="meetingModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Create Meeeting</h4>
+            </div>
+            <div class="modal-body">
+              <form name="meetingForm" role="form">
+                Date:
+                <input type="date" name="date" ng-model="meetingDate" class="glyphicon glyphicon-calendar">
+                <span ng-show="meetingFrom.date.$required">
+                  The date is required
+                </span>
+                <br>
+                <div class="timeSelection">
+                  Time:
+                  <input type="time" ng-model="startTime" >
+                  <span>to </span>
+                  <input type="time" ng-model="endTime">
+                </div>
+                Location:
+                <div class="locationSelection">
+                  <select ng-model="selectedBuilding">
+                    <option value="" disabled selected hidden>Select Building</option>
+                    <option ng-repeat="building in vm.buildings">{{building}}</option>
+                  </select>
+                </div>
+                <div class="locationSelection">
+                  <select ng-model="selectedRoom">
+                    <option value="" disabled selected hidden>Select Room</option>
+                    <option ng-repeat="room in vm.rooms">{{room}}</option>
+                  </select>
+                </div>
+                Comment:
+                <br />
+                <input type="text" id="meetingNotes">
+              </form>
+
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chatBoard">
+      <div class="chat">
+	<div ng-repeat="msg in vm.messages">
+	  <p>{{msg.userId}}: {{msg.message}}</p>
+	  <p>{{msg.dateTime}}</p>
+	</div>
+	<form role="form">
+	  <textarea name="comments" id="comments" ng-model="vm.chatFields.message">
+	    Type a message....
+	  </textarea>
+	  <button id="subMsg" type="submit" class="btn btn-default" ng-click="vm.sendMessage()">Send</button>
+	</form>
+      </div>
+    </div>
+  </div>
+  <div class="creatorEvents">
+    <div class="creatorCalendar">
+      <div pickadate ng-model="vm.date" format="mm/dd/yyyy"></div>
+      <div class="selected-date">Selected date is {{vm.date || '(no date selected)'}}</div>
+    </div>
+
+    <div class="creatorUpcoming_events">
+      <div class="meetings" ng-repeat="meeting in vm.meetings">
+        <ul ng-repeat="detail in meeting">
+          {{detail}}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="memberList">
+  <h4>Members:</h4>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr ng-repeat="member in vm.members">
+      <td>{{member}}</td>
+      <td>
+        <button type="button" class="btn btn-warning btn-info btn-xs" data-toggle="modal" data-target="#reportModal">Report</button>
+        <div id="reportModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Report</h4>
+              </div>
+              <div class="modal-body">
+                <form role="form" name=report>
+                  <label for="reportee">Reportee:</label>
+                  <input type="text" class="form-control" id="reportee" placeholder="Reportee's Name" disabled>
+                  <label for="reportType">Report Type:</label>
+                  <select class="form-control" id="reportType">
+                    <option>reportType1</option>
+                    <option>reportType2</option>
+                    <option>reportType3</option>
+                    <option>reportType4</option>
+                  </select>
+                  <label for="comment">Comment:</label>
+                  <textarea class="form-control" rows="5" id="comment"></textarea>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-default">Report</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="removeContainer">
+          <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#removeModal">Remove</button>
+          <!-- Modal -->
+          <div class="modal fade" id="removeModal" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Confirm to remove this member from the group</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to remove this member the group?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success">Yes</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+</div>
+<div>
+  <div class="deleteContainer">
+    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteModal">Delete Group</button>
+    <div class="modal fade" id="deleteModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Confirm to delete group</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete the group?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success">Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
